@@ -1,8 +1,15 @@
-
 import streamlit as st
 import random
 import pandas as pd
 from io import BytesIO
+
+st.title("🚀 Growth Mindset Challenge 🌱")
+st.write("""Growth Mindset Agentia refers to artificial intelligence designed to learn, adapt, and evolve continuously.
+It embodies a growth mindset, embracing challenges, persisting through obstacles, and viewing failures as opportunities for growth.
+This agentia learns from data, experiences, and interactions, enabling it to improve performance, innovate, and make informed decisions.""")
+
+st.title("📝 Quiz Time! 🎯")
+st.write("Attempt this quiz and check your programming concepts 🧠💡")
 
 # Define a dictionary of JavaScript, Python, HTML, and CSS questions, answers, and options
 questions_data = [
@@ -36,19 +43,19 @@ if st.session_state.current_question < len(questions_df):
     current_row = st.session_state.shuffled_questions.iloc[st.session_state.current_question]
     
     # Display the current question and options
-    st.write(f"**Question {st.session_state.current_question + 1} of {len(questions_df)}:**")
+    st.write(f"**📌 Question {st.session_state.current_question + 1} of {len(questions_df)}:**")
     st.write(current_row['question'])
     
     # Show answer choices as a radio button
     options = {key: current_row[key] for key in ['A', 'B', 'C', 'D']}
-    user_answer = st.radio("Select an answer:", list(options.keys()), index=None, format_func=lambda x: f"{x}: {options[x]}")
+    user_answer = st.radio("🔍 Select an answer:", list(options.keys()), index=None, format_func=lambda x: f"{x}: {options[x]}")
     
     # Check the user's answer and update the score
-    if st.button("Submit"):
+    if st.button("✅ Submit"):
         if user_answer:  # Ensure an option is selected
             if user_answer == current_row['answer']:
                 st.session_state.score += 1
-                st.success("✅ Correct!")
+                st.success("🎉 Correct!")
             else:
                 st.error(f"❌ Incorrect. The correct answer is {current_row['answer']}.")
             
@@ -61,8 +68,8 @@ if st.session_state.current_question < len(questions_df):
 
 # When all questions are answered
 else:
-    st.write("🎉 **Quiz Complete!**")
-    st.write(f"Your final score: **{st.session_state.score} / {len(questions_df)}**")
+    st.write("🏆 **Quiz Complete!** 🎊")
+    st.write(f"Your final score: **{st.session_state.score} / {len(questions_df)}** 🎯")
     
     # Convert results to a CSV file
     result_df = pd.DataFrame({
@@ -72,10 +79,10 @@ else:
     })
     csv_buffer = BytesIO()
     result_df.to_csv(csv_buffer, index=False)
-    st.download_button("Download Results", data=csv_buffer.getvalue(), file_name="quiz_results.csv", mime="text/csv")
+    st.download_button("📥 Download Results", data=csv_buffer.getvalue(), file_name="quiz_results.csv", mime="text/csv")
     
     # Restart option
-    if st.button("Restart Quiz"):
+    if st.button("🔄 Restart Quiz"):
         st.session_state.shuffled_questions = questions_df.sample(frac=1).reset_index(drop=True)  # Reshuffle for new game
         st.session_state.current_question = 0
         st.session_state.score = 0
